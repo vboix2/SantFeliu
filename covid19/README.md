@@ -1,7 +1,3 @@
-# Incidència de la covid19 a Sant Feliu de Llobregat
-
-## Visualització
-
 [![Visualització](Visualitzacio.png)](https://datastudio.google.com/reporting/e603c827-1ecb-4e3d-94f3-13d96740919b/page/pxDlB)
 
 ## Fonts de dades
