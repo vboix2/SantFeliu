@@ -66,7 +66,7 @@ def update(request):
 
 	covid = pd.read_json('https://analisi.transparenciacatalunya.cat/resource/fk8v-uqfv.json?$limit=300000', dtype={'alumn_positiu_acum':int,'personal_positiu_acum':int, 'altres_positiu_acum':int, 'codcentre':str})
 
-	COLUMNS = ['datageneracio','codcentre','alumn_positiu_acum','personal_positiu_acum','altres_positiu_acum']
+	COLUMNS = ['datageneracio','codcentre','alumn_positiu_acum','personal_positiu_acum','altres_positiu_acum','grup_confin']
 	covid = covid.loc[:,COLUMNS].rename(columns={'codcentre':'codi_centre','datageneracio':'data'})
 
 	covid['data'] = pd.to_datetime(covid['data'], format="%Y-%m-%dT%H:%M:%S.%f")
@@ -83,7 +83,7 @@ def update(request):
 
 	# Agrupem dades
 
-	dades = dades.groupby(['data'], as_index=False).agg({'alumn_positiu_acum':sum, 'personal_positiu_acum':sum, 'altres_positiu_acum':sum})
+	dades = dades.groupby(['data'], as_index=False).agg({'alumn_positiu_acum':sum, 'personal_positiu_acum':sum, 'altres_positiu_acum':sum, 'grup_confin':sum})})
 
 	# Calculem els nous positius diaris (desfem els valors acumulats)
 
@@ -91,6 +91,7 @@ def update(request):
 		dades.loc[i,'alumn_positiu_acum'] = dades.loc[i,'alumn_positiu_acum'] - dades.loc[i-1,'alumn_positiu_acum']
 		dades.loc[i,'personal_positiu_acum'] = dades.loc[i,'personal_positiu_acum'] - dades.loc[i-1,'personal_positiu_acum']
 		dades.loc[i,'altres_positiu_acum'] = dades.loc[i,'altres_positiu_acum'] - dades.loc[i-1,'altres_positiu_acum']
+		dades.loc[i,'grup_confin'] = dades.loc[i,'grup_confin'] - dades.loc[i-1,'grup_confin']
 
 	dades = dades.rename(columns={'alumn_positiu_acum':'pos_alumn', 'personal_positiu_acum':'pos_pers', 'altres_positiu_acum':'pos_altres'})
 
