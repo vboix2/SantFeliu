@@ -64,7 +64,7 @@ def update(request):
 
 	# Dades covid
 
-	covid = pd.read_json('https://analisi.transparenciacatalunya.cat/resource/fk8v-uqfv.json?$limit=300000', dtype={'alumn_positiu_acum':int,'personal_positiu_acum':int, 'altres_positiu_acum':int, 'codcentre':str})
+	covid = pd.read_json('https://analisi.transparenciacatalunya.cat/resource/fk8v-uqfv.json?$limit=300000', dtype={'alumn_positiu_acum':int,'personal_positiu_acum':int, 'altres_positiu_acum':int, 'codcentre':str, 'grup_confin':float})
 
 	COLUMNS = ['datageneracio','codcentre','alumn_positiu_acum','personal_positiu_acum','altres_positiu_acum','grup_confin']
 	covid = covid.loc[:,COLUMNS].rename(columns={'codcentre':'codi_centre','datageneracio':'data'})
@@ -83,7 +83,7 @@ def update(request):
 
 	# Agrupem dades
 
-	dades = dades.groupby(['data'], as_index=False).agg({'alumn_positiu_acum':sum, 'personal_positiu_acum':sum, 'altres_positiu_acum':sum, 'grup_confin':sum})})
+	dades = dades.groupby(['data'], as_index=False).agg({'alumn_positiu_acum':sum, 'personal_positiu_acum':sum, 'altres_positiu_acum':sum, 'grup_confin':sum})
 
 	# Calculem els nous positius diaris (desfem els valors acumulats)
 
